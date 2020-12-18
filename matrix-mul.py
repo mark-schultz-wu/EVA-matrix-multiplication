@@ -8,6 +8,8 @@ import random
 
 
 def vec_from_pred(n, pred):
+    # Returns a vector v in {0,1}^n s.t.
+    # v[i] = pred(i)
     return [1 if pred(ell) else 0 for ell in range(n)]
 
 
@@ -17,6 +19,8 @@ def rot(vec, k):
 
 def hom_matrix_mul(matA, matB):
     # Encrypts matA, matB, and then homomorphically multiplies them
+    # using the homomorphic matrix multiplication algorithm from
+    # https://eprint.iacr.org/2018/1041.pdf
 
     # Checking that A, B are both d x d matrices for some d
     # d will have to be a power of two for CKKS to work, I won't check here
@@ -25,9 +29,8 @@ def hom_matrix_mul(matA, matB):
     assert(all(len(matA[i]) == d for i in range(d)))
     assert(all(len(matB[i]) == d for i in range(d)))
 
-    # Homomorphic matric multiplication from
-    # https://eprint.iacr.org/2018/1041.pdf
-    program = EvaProgram('Multiplication of two d x d matrices', vec_size=d*d)
+    program = EvaProgram(
+        f'Multiplication of two {d} x {d} matrices', vec_size=d*d)
     with program:
         n = d**2
         # Step 1-1
