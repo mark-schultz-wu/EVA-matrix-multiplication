@@ -14,6 +14,7 @@ def vec_from_pred(n, pred):
 
 
 def rot(vec, k):
+    # Left-rotate the CKKS ciphertext by k slots
     return vec << k
 
 
